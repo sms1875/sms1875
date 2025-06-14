@@ -18,9 +18,13 @@ jobs:
           # roadmap.sh 배지 업데이트
           
           # 1. t= 파라미터가 이미 있으면 값만 교체
-          sed -i -E "s|(https://roadmap\.sh/[^?)]*\?[^)]*?)(t=[0-9]+)|\1t=$TIMESTAMP|g" README.md
-          # 2. t= 파라미터가 없으면 추가
-          sed -i -E "s|(https://roadmap\.sh/[^?)]+)(\?[^)]*)?(\))|\1\2$( [ -n "\2" ] && echo '&' || echo '?' )t=$TIMESTAMP\3|g" README.md
+          sed -i -E "s|([?&]t=)[0-9]+|\1$TIMESTAMP|g" README.md
+          # 2. t= 파라미터가 없는 경우 추가
+          sed -i -E "/roadmap\.sh\/card/{
+            /[?&]t=/!{
+              s|(https://roadmap\.sh/card/[^)]+)|\1&t=$TIMESTAMP|
+            }
+          }" README.md
           
       - name: Commit changes
         run: |
