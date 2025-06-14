@@ -8,7 +8,8 @@
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=sms1875&layout=compact&size_weight=0.5&count_weight=0.5&langs_count=10)](https://github.com/anuraghazra/github-readme-stats)
 
-[![roadmap.sh](https://roadmap.sh/card/tall/684939aead6d56a8063f0bcb?variant=darkhttps://roadmap.sh/card/tall/684939aead6d56a8063f0bcb?variant=darkt=1749883926)](https://roadmap.sh)
+[![roadmap.sh](https://roadmap.sh/card/wide/684939aead6d56a8063f0bcb?variant=light&roadmaps=aspnet-core%2Cjavascript%2Cvue%2Cflutter)](https://roadmap.sh)
+
 ---
 
 [![Solved.ac](http://mazassumnida.wtf/api/v2/generate_badge?boj=sms1875)](https://solved.ac/sms1875)
