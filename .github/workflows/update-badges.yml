@@ -9,22 +9,37 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Update badge timestamps
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # README.md의 뱃지 URL 업데이트
+      - name: Update roadmap.sh badge URLs 
         run: |
           TIMESTAMP=$(date +%s)
-          
-          # roadmap.sh 배지 업데이트
-          
-          # 1. t= 파라미터가 이미 있으면 값만 교체
-          sed -i -E "s|([?&]t=)[0-9]+|\1$TIMESTAMP|g" README.md
-          # 2. t= 파라미터가 없는 경우 추가
-          sed -i -E "/roadmap\.sh\/card/{
-            /[?&]t=/!{
-              s|(https://roadmap\.sh/card/[^)]+)|\1&t=$TIMESTAMP|
-            }
-          }" README.md
+          README_FILE="README.md"
+
+          echo "Updating badges in $README_FILE with timestamp $TIMESTAMP"
+
+          TEMP_FILE=$(mktemp)
+
+          # 1단계: 기존의 t=... 파라미터를 모두 제거하여 초기화합니다.
+          # [?&]는 '?' 또는 '&'를 의미하며, 기존 타임스탬프를 깔끔하게 지웁니다.
+          sed -E 's/([?&])t=[0-9]*//g' "$README_FILE" > "$TEMP_FILE"
+
+          # 2단계: 모든 roadmap.sh URL 뒤에 '&t=타임스탬프'를 추가합니다.
+          # 이 단계에서는 URL에 '?'가 있든 없든 일단 '&'로 추가합니다.
+          # sed의 구분자로 '|'를 사용하여 URL의 '/'와 충돌하지 않도록 합니다.
+          sed -E "s|(https://roadmap.sh/card/[^)]+)|\\1\&t=$TIMESTAMP|g" "$TEMP_FILE" > "${TEMP_FILE}.step2"
+
+          # 3단계: 잘못 추가된 '&'를 '?'로 수정합니다.
+          # '/card/' 뒤에 '?'가 없는데 '&t='가 붙은 경우, 첫 '&'를 '?'로 바꿉니다.
+          # 이 명령으로 ?가 없는 순수한 URL에 타임스탬프가 올바르게 추가됩니다.
+          sed -E 's|(/card/[^?)]*)\&t=|\1?t=|g' "${TEMP_FILE}.step2" > "$README_FILE"
+
+          # 임시 파일 삭제
+          rm "$TEMP_FILE" "${TEMP_FILE}.step2"
+
+          echo "Badge update process complete."
           
       - name: Commit changes
         run: |
