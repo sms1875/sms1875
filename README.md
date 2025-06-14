@@ -8,9 +8,7 @@
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=sms1875&layout=compact&size_weight=0.5&count_weight=0.5&langs_count=10)](https://github.com/anuraghazra/github-readme-stats)
 
-[![roadmap.sh](https://roadmap.sh/card/wide/684939aead6d56a8063f0bcb?variant=dark)](https://roadmap.sh)
-
-<a href="https://roadmap.sh"><img src="https://roadmap.sh/card/tall/684939aead6d56a8063f0bcb?variant=dark" alt="roadmap.sh"/></a>
+[![roadmap.sh](https://roadmap.sh/card/tall/684939aead6d56a8063f0bcb?variant=dark)](https://roadmap.sh)
 
 ---
 
