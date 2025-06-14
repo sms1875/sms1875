@@ -1,0 +1,28 @@
+name: Update Roadmap.sh Badge
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 00:00 자동 실행
+  workflow_dispatch:     # 수동 실행
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Update badge timestamps
+        run: |
+          TIMESTAMP=$(date +%s)
+          
+          # roadmap.sh 배지 업데이트
+          sed -i -E "s|(https://roadmap\.sh/[^)]*[?&])t=[0-9]*|\1t=$TIMESTAMP|g" README.md
+          sed -i -E "s|(https://roadmap\.sh/[^)]*)(\)|[^?&t])|&t=$TIMESTAMP\2|g" README.md
+          
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git diff --staged --quiet || git commit -m "Update Roadmap.sh Badge [$(date)]"
+          git push
